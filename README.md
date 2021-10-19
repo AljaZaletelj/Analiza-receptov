@@ -9,7 +9,7 @@ Za vsak recept bom zajela:
 * hranilne in energijske vrednosti porcije
 * tip prehrane
 
-Glavna vprapanje:
-* 1
-* 2
-* 3
+Glavna vprašanja:
+* Ali lahko iz glavnih sestavin ugotovimo čas priprave?
+* V katerih kategorijah imajo jedi najbolj raznoliko hranilno sestavo?
+* Za katere tipe prehrane so postopki najbolj zapleteni?
