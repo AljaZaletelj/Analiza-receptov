@@ -3,7 +3,7 @@
 V tej domači nalogi bom analizirala vse recepte iz spletne strani [okusno.je](https://okusno.je/iskanje)
 
 Za vsak recept bom zajela:
-* ime in kategorija jedi
+* ime in kategorijo jedi
 * čas priprave in kuhanja
 * sestavine in postopek
 * hranilne in energijske vrednosti porcije
