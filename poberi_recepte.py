@@ -9,9 +9,11 @@ MAPA_Z_RECEPTI = "recepti"
 
 URL_OSNOVNA_STRAN = "https://okusno.je/"
 
-
 STEVILO_STRANI = 100
 STEVILO_RECEPTOV_NA_STRANI = 20
+
+#--------------vzroci-----------------------------------------------------
+
 IMENA_POLJ = [
     "ime",
     "kategorija",
@@ -19,12 +21,53 @@ IMENA_POLJ = [
     "cas_kuhanja",
     "tezavnost",
     "sestavine",
-    "postopek",
     "hranilne_vrednosti",
     "tip_prehrane"
     ]
 
-#------------------------------------------------------------------------------------------
+VZOREC = 1
+
+vzorec_imena = re.compile(
+    r'Recipe","name":"(?P<ime_recepta>.*?)",',
+    flags=re.DOTALL
+    )
+
+vzorec_kategorije = re.compile(
+    r',"recipeCategory":"(?P<kategorija>.*?)",',
+    flags=re.DOTALL
+    )
+
+vzorec_casa = re.compile(
+    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M',
+    flags=re.DOTALL)
+
+vzorec_tezavnosti = re.compile(
+    r'<div class="ng-tns-c143-1 border-b border-black10 difficulty difficulty-(?P<tezavnost>.) dificulty-large',
+    flags=re.DOTALL)
+
+vzorec_sestavin = re.compile(
+    r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
+    flags=re.DOTALL)
+
+vzorec_kalorij = re.compile(
+    r'NutritionInformation...calories...(?P<calories>.*?)...carb',
+    flags=re.DOTALL)
+
+vzorec_OH = re.compile(
+    r',"carbohydrateContent":"(?P<ogljikovi_hidrati>.*?)",',
+    flags=re.DOTALL)
+
+vzorec_mascob_vlaknin__beljakovin =  re.compile(
+    r',"fatContent":"(?P<mascobe>.*?)","fiberContent":"(?P<vlaknine>.*?)","proteinContent":"(?P<beljakovine>.*?)",',
+    flags=re.DOTALL)
+
+vzorec_tipa_prehrane = re.compile(
+    r'',
+    flags=re.DOTALL)
+
+
+
+#---------------------------------------------------------------------------------------
 
 #pobere recepte z prve strani in jih shrani v datoteke html od 1-100
 
@@ -50,11 +93,10 @@ def poberi_povezave_receptov_iz_osnovne_strani(mapa_s_stranmi):
         osnovna_stran =  open(datoteka, "r",  encoding="utf-8")
         vsebina = osnovna_stran.read()
         povezave = najdi_povezave(vsebina)
-        print(len(povezave))
+        #print(len(povezave))
         vse_povezave.extend(povezave)
-        print(povezave)
+        #print(povezave)
         osnovna_stran.close()
-    print(vse_povezave)
     print(len(vse_povezave))
     return vse_povezave
 
@@ -70,16 +112,16 @@ def shrani_recepte(povezave, mapa_z_recepti):
         i += 1
     
 
-
 #odpre html-je receptov in iz njih izlušči pomembne podatke
 
 def izlusci_podatke(mapa_z_recepti):
     seznam_podatkov = []
-    for recept in mapa_z_recepti:
-        vsebina = orodja.vsebina_datoteke(recept)
-        vzorec = r"dopolni"
-        regexp = re.compile(vzorec, re.DOTALL)
-        najdeno = re.search(regexp, vsebina)
+    for i in range(1, STEVILO_STRANI * STEVILO_RECEPTOV_NA_STRANI):
+        datoteka = f"recept_{i}.html"
+        pot = os.path.join(mapa_z_recepti, datoteka)
+        vsebina = orodja.vsebina_datoteke(pot)
+        vzorec = vzorec_tezavnosti
+        najdeno = re.search(vzorec, vsebina)
         if najdeno:
             seznam_podatkov.append(najdeno.groupdict())
         return seznam_podatkov
@@ -185,18 +227,18 @@ def page_to_ads(page_content):
 # podatke o imenu, lokaciji, datumu objave in ceni v oglasu.
 
 
-def get_dict_from_ad_block(block):
-    """Funkcija iz niza za posamezen oglasni blok izlušči podatke o imenu, ceni
-    in opisu ter vrne slovar, ki vsebuje ustrezne podatke."""
-    pattern = r'<a .*?>(?P<title>.*?)</a></h3>' + \
-              r'.*pubdate="pubdate">(?P<datum>.*?)</time>'
-    regexp = re.compile(pattern, re.DOTALL)
-    najdeno = re.search(regexp, block)
-    if najdeno:
-        return najdeno.groupdict()
-    return None
-
-
+#def get_dict_from_ad_block(block):
+#    """Funkcija iz niza za posamezen oglasni blok izlušči podatke o imenu, ceni
+#    in opisu ter vrne slovar, ki vsebuje ustrezne podatke."""
+#    pattern = r'<a .*?>(?P<title>.*?)</a></h3>c + \ 
+#              r'.*pubdate="pubdate">(?P<datum>.*?)</time>'
+#    regexp = re.compile(pattern, re.DOTALL)
+#    najdeno = re.search(regexp, block)
+#    if najdeno:
+#        return najdeno.groupdict()
+#    return None
+#
+#
 # Definirajte funkcijo, ki sprejme ime in lokacijo datoteke, ki vsebuje
 # besedilo spletne strani, in vrne seznam slovarjev, ki vsebujejo podatke o
 # vseh oglasih strani.
