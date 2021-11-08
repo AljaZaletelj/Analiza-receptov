@@ -9,7 +9,7 @@ MAPA_Z_RECEPTI = "recepti"
 
 URL_OSNOVNA_STRAN = "https://okusno.je/"
 
-STEVILO_STRANI = 100
+STEVILO_STRANI = 4
 STEVILO_RECEPTOV_NA_STRANI = 20
 
 #--------------vzroci-----------------------------------------------------
@@ -25,29 +25,20 @@ IMENA_POLJ = [
     "tip_prehrane"
     ]
 
-VZOREC = 1
 
-vzorec_imena = re.compile(
-    r'Recipe","name":"(?P<ime_recepta>.*?)",',
-    flags=re.DOTALL
-    )
-
-vzorec_kategorije = re.compile(
-    r',"recipeCategory":"(?P<kategorija>.*?)",',
-    flags=re.DOTALL
-    )
-
-vzorec_casa = re.compile(
-    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M',
-    flags=re.DOTALL)
+#VZOREC_TEZAVNOSTI = vzorec_tezavnosti
 
 vzorec_tezavnosti = re.compile(
     r'<div class="ng-tns-c143-1 border-b border-black10 difficulty difficulty-(?P<tezavnost>.) dificulty-large',
     flags=re.DOTALL)
 
+#VZOREC_SESTAVIN = vzorec_sestavin
+
 vzorec_sestavin = re.compile(
     r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
     flags=re.DOTALL)
+
+#VZOREC_SESTAVE = vzorec_kalorij + vzorec_OH + vzorec_mascob_vlaknin__beljakovin
 
 vzorec_kalorij = re.compile(
     r'NutritionInformation...calories...(?P<calories>.*?)...carb',
@@ -61,10 +52,31 @@ vzorec_mascob_vlaknin__beljakovin =  re.compile(
     r',"fatContent":"(?P<mascobe>.*?)","fiberContent":"(?P<vlaknine>.*?)","proteinContent":"(?P<beljakovine>.*?)",',
     flags=re.DOTALL)
 
-vzorec_tipa_prehrane = re.compile(
-    r'',
+
+VZOREC_RECEPTA = re.compile(
+    #vzorec_imena + vzorec_casa + vzorec_kategorije
+    r'Recipe","name":"(?P<ime_recepta>.*?)","image.*?'
+    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M.*?'
+    r',"recipeCategory":"(?P<kategorija>.*?)",',
     flags=re.DOTALL)
 
+#vzorec_imena = r'Recipe","name":"(?P<ime_recepta>.*?)","image'
+#
+#vzorec_casa = re.compile(
+#    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M',
+#    flags=re.DOTALL)
+#
+#vzorec_kategorije = re.compile(
+#    r',"recipeCategory":"(?P<kategorija>.*?)",',
+#    flags=re.DOTALL
+#    )
+
+
+
+#??
+#vzorec_tipa_prehrane = re.compile(
+#    r'',
+#    flags=re.DOTALL)
 
 
 #---------------------------------------------------------------------------------------
@@ -116,12 +128,14 @@ def shrani_recepte(povezave, mapa_z_recepti):
 
 def izlusci_podatke(mapa_z_recepti):
     seznam_podatkov = []
-    for i in range(1, STEVILO_STRANI * STEVILO_RECEPTOV_NA_STRANI):
+    for i in range(1, STEVILO_STRANI * STEVILO_RECEPTOV_NA_STRANI + 1):
         datoteka = f"recept_{i}.html"
         pot = os.path.join(mapa_z_recepti, datoteka)
         vsebina = orodja.vsebina_datoteke(pot)
-        vzorec = vzorec_tezavnosti
+        vzorec = vzorec_kategorije
         najdeno = re.search(vzorec, vsebina)
+        print(najdeno)
+        print("kkk")
         if najdeno:
             seznam_podatkov.append(najdeno.groupdict())
         return seznam_podatkov
@@ -133,7 +147,7 @@ def izlusci_podatke(mapa_z_recepti):
 
 def poberi_recepte():
     #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
-    povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    #povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #shrani_recepte(povezave, MAPA_Z_RECEPTI)
     izlusci_podatke(MAPA_Z_RECEPTI)
 
