@@ -53,6 +53,7 @@ vzorec_tezavnosti = re.compile(
     r'<div class="ng-tns-c143-1 border-b border-black10 difficulty difficulty-(?P<tezavnost>.) dificulty-large',
     flags=re.DOTALL)
 
+
 #??
 #vzorec_tipa_prehrane = re.compile(
 #    r'',
@@ -66,7 +67,7 @@ vzorec_tezavnosti = re.compile(
 def poberi_osnovne_strani(ime_mape):
     for stran in range(1, STEVILO_STRANI + 1):
         url = URL_OSNOVNA_STRAN + f'iskanje?stran={stran}'
-        datoteka = os.path.join(ime_mape, f"stran_dod_{stran}.html") 
+        datoteka = os.path.join(ime_mape, f"stran_{stran}.html") 
         print(url)
         orodja.shrani_spletno_stran(url, datoteka)
 
@@ -128,9 +129,9 @@ def izlusci_podatke(mapa_z_recepti):
 #izvede postopek
 
 def poberi_recepte():
-    #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
-    #povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
-    #shrani_recepte(povezave, MAPA_Z_RECEPTI)
+    poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    shrani_recepte(povezave, MAPA_Z_RECEPTI)
     podatki = izlusci_podatke(MAPA_Z_RECEPTI)
     orodja.zapisi_csv(podatki, IMENA_POLJ, RECEPTI_CSV)
 
