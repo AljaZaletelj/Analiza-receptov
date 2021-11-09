@@ -16,7 +16,6 @@ STEVILO_RECEPTOV_NA_STRANI = 20
 
 #VPRASANJA:
 #-- ponavljanje osnovne strani
-#-- izlusci podatke, šumniki pri imenih
 
 #--------------vzroci-----------------------------------------------------
 
