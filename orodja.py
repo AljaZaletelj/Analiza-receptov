@@ -20,12 +20,13 @@ def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False):
         if os.path.isfile(ime_datoteke) and not vsili_prenos:
             print('shranjeno že od prej!')
             return
-        r = requests.get(url)
+        r = requests.get(url,  allow_redirects=True)
     except requests.exceptions.ConnectionError:
         print('stran ne obstaja!')
     else:
         pripravi_imenik(ime_datoteke)
         with open(ime_datoteke, 'w', encoding='utf-8') as datoteka:
+            r.encoding = "utf-8"
             datoteka.write(r.text)
             print('shranjeno!')
 
