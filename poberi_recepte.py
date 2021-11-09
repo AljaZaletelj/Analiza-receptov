@@ -14,8 +14,7 @@ STEVILO_RECEPTOV_NA_STRANI = 20
 
 #VPRASANJA:
 #-- ponavljanje osnovne strani
-#-- izlusci podatke, group dict
-#-- izlusci podatke, utf-8 za sestavine in imena
+#-- izlusci podatke, šumniki pri imenih
 
 #--------------vzroci-----------------------------------------------------
 
@@ -31,58 +30,43 @@ IMENA_POLJ = [
     ]
 
 
-#VZOREC_TEZAVNOSTI = vzorec_tezavnosti
+vzorec_recepta = re.compile(
+    r'Recipe","name":"(?P<ime_recepta>.*?)","image.*?'
+    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M.*?'
+    r',"recipeCategory":"(?P<kategorija>.*?)",.*?'
+    r'NutritionInformation...calories...(?P<kalorije>.*?)...carbohydrate'
+    r'Content":"(?P<ogljikovi_hidrati>.*?)",.*?"fat'
+    r'Content":"(?P<mascobe>.*?)","fiber'
+    r'Content":"(?P<vlaknine>.*?)","protein'
+    r'Content":"(?P<beljakovine>.*?)",.*?'
+    r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
+    flags=re.DOTALL
+)
 
 vzorec_tezavnosti = re.compile(
     r'<div class="ng-tns-c143-1 border-b border-black10 difficulty difficulty-(?P<tezavnost>.) dificulty-large',
     flags=re.DOTALL)
 
-#VZOREC_SESTAVIN = vzorec_sestavin
 
-vzorec_sestavin = re.compile(
-    r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
-    flags=re.DOTALL)
-
-VZOREC_SESTAVE = re.compile(
-#    vzorec_kalorij + vzorec_OH + vzorec_mascob_vlaknin__beljakovin
-    r'NutritionInformation...calories...(?P<calories>.*?)...carbohydrate'
-    r'Content":"(?P<ogljikovi_hidrati>.*?)",.*?"fat'
-    r'Content":"(?P<mascobe>.*?)","fiber'
-    r'Content":"(?P<vlaknine>.*?)","protein'
-    r'Content":"(?P<beljakovine>.*?)",',
-    flags=re.DOTALL
-)
-
-#vzorec_kalorij = re.compile(
-#    r'NutritionInformation...calories...(?P<calories>.*?)...carb',
-#    flags=re.DOTALL)
-#
-#vzorec_OH = re.compile(
-#    r',"carbohydrateContent":"(?P<ogljikovi_hidrati>.*?)",',
-#    flags=re.DOTALL)
-#
-#vzorec_mascob_vlaknin__beljakovin =  re.compile(
-#    r',"fatContent":"(?P<mascobe>.*?)","fiberContent":"(?P<vlaknine>.*?)","proteinContent":"(?P<beljakovine>.*?)",',
-#    flags=re.DOTALL)
-
-
-VZOREC_RECEPTA = re.compile(
-    #vzorec_imena + vzorec_casa + vzorec_kategorije
-    r'Recipe","name":"(?P<ime_recepta>.*?)","image.*?'
-    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M.*?'
-    r',"recipeCategory":"(?P<kategorija>.*?)",',
-    flags=re.DOTALL)
-
-#vzorec_imena = r'Recipe","name":"(?P<ime_recepta>.*?)","image'
-#
-#vzorec_casa = re.compile(
-#    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M',
-#    flags=re.DOTALL)
-#
-#vzorec_kategorije = re.compile(
+#VZOREC_RECEPTA = re.compile(
+#    #vzorec_imena + vzorec_casa + vzorec_kategorije
+#    r'Recipe","name":"(?P<ime_recepta>.*?)","image.*?'
+#    r'prepTime":"PT(?P<cas_priprave>.*?)M","cookTime":"PT(?P<cas_kuhanja>.*?)M.*?'
 #    r',"recipeCategory":"(?P<kategorija>.*?)",',
+#    flags=re.DOTALL)
+#
+#vzorec_sestave = re.compile(
+##    vzorec_kalorij + vzorec_OH + vzorec_mascob_vlaknin__beljakovin
+#    r'NutritionInformation...calories...(?P<calories>.*?)...carbohydrate'
+#    r'Content":"(?P<ogljikovi_hidrati>.*?)",.*?"fat'
+#    r'Content":"(?P<mascobe>.*?)","fiber'
+#    r'Content":"(?P<vlaknine>.*?)","protein'
+#    r'Content":"(?P<beljakovine>.*?)",',
 #    flags=re.DOTALL
-#    )
+#)
+#vzorec_sestavin = re.compile(
+#    r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
+#    flags=re.DOTALL)
 
 
 
@@ -147,15 +131,13 @@ def izlusci_podatke(mapa_z_recepti):
         datoteka = f"recept_{i}.html"
         pot = os.path.join(mapa_z_recepti, datoteka)
         vsebina = orodja.vsebina_datoteke(pot)
-        vzorec = VZOREC_SESTAVE
+        vzorec = vzorec_recepta
         poskus = re.findall(vzorec, vsebina)
         print(poskus)
         najdeno = re.search(vzorec, vsebina)
         print(najdeno)
-        print("kkk")
         if najdeno:
             seznam_podatkov.append(najdeno.groupdict())
-    
     return seznam_podatkov
 
 
@@ -163,7 +145,7 @@ def izlusci_podatke(mapa_z_recepti):
 #izvede postopek
 
 def poberi_recepte():
-    poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #shrani_recepte(povezave, MAPA_Z_RECEPTI)
     podatki = izlusci_podatke(MAPA_Z_RECEPTI)
