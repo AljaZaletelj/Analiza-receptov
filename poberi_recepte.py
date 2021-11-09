@@ -6,11 +6,16 @@ import csv
 
 MAPA_OSNOVNIH_STRANI = "osnovne_strani"
 MAPA_Z_RECEPTI = "recepti"
-
++6 
 URL_OSNOVNA_STRAN = "https://okusno.je/"
 
 STEVILO_STRANI = 4
 STEVILO_RECEPTOV_NA_STRANI = 20
+
+#VPRASANJA:
+#-- ponavljanje osnovne strani
+#-- izlusci podatke, group dict
+#-- izlusci podatke, utf-8 za sestavine in imena
 
 #--------------vzroci-----------------------------------------------------
 
@@ -38,19 +43,27 @@ vzorec_sestavin = re.compile(
     r'recipeIngredient":\[(?P<sestavine>.*?)\]..recipeInstructions',
     flags=re.DOTALL)
 
-#VZOREC_SESTAVE = vzorec_kalorij + vzorec_OH + vzorec_mascob_vlaknin__beljakovin
+VZOREC_SESTAVE = re.compile(
+#    vzorec_kalorij + vzorec_OH + vzorec_mascob_vlaknin__beljakovin
+    r'NutritionInformation...calories...(?P<calories>.*?)...carbohydrate'
+    r'Content":"(?P<ogljikovi_hidrati>.*?)",.*?"fat'
+    r'Content":"(?P<mascobe>.*?)","fiber'
+    r'Content":"(?P<vlaknine>.*?)","protein'
+    r'Content":"(?P<beljakovine>.*?)",',
+    flags=re.DOTALL
+)
 
-vzorec_kalorij = re.compile(
-    r'NutritionInformation...calories...(?P<calories>.*?)...carb',
-    flags=re.DOTALL)
-
-vzorec_OH = re.compile(
-    r',"carbohydrateContent":"(?P<ogljikovi_hidrati>.*?)",',
-    flags=re.DOTALL)
-
-vzorec_mascob_vlaknin__beljakovin =  re.compile(
-    r',"fatContent":"(?P<mascobe>.*?)","fiberContent":"(?P<vlaknine>.*?)","proteinContent":"(?P<beljakovine>.*?)",',
-    flags=re.DOTALL)
+#vzorec_kalorij = re.compile(
+#    r'NutritionInformation...calories...(?P<calories>.*?)...carb',
+#    flags=re.DOTALL)
+#
+#vzorec_OH = re.compile(
+#    r',"carbohydrateContent":"(?P<ogljikovi_hidrati>.*?)",',
+#    flags=re.DOTALL)
+#
+#vzorec_mascob_vlaknin__beljakovin =  re.compile(
+#    r',"fatContent":"(?P<mascobe>.*?)","fiberContent":"(?P<vlaknine>.*?)","proteinContent":"(?P<beljakovine>.*?)",',
+#    flags=re.DOTALL)
 
 
 VZOREC_RECEPTA = re.compile(
@@ -124,6 +137,7 @@ def shrani_recepte(povezave, mapa_z_recepti):
         i += 1
     
 
+
 #odpre html-je receptov in iz njih izlušči pomembne podatke
 
 def izlusci_podatke(mapa_z_recepti):
@@ -132,7 +146,9 @@ def izlusci_podatke(mapa_z_recepti):
         datoteka = f"recept_{i}.html"
         pot = os.path.join(mapa_z_recepti, datoteka)
         vsebina = orodja.vsebina_datoteke(pot)
-        vzorec = vzorec_kategorije
+        vzorec = VZOREC_SESTAVE
+        poskus = re.findall(vzorec, vsebina)
+        print(poskus)
         najdeno = re.search(vzorec, vsebina)
         print(najdeno)
         print("kkk")
@@ -142,16 +158,15 @@ def izlusci_podatke(mapa_z_recepti):
 
 
 
-
 #izvede postopek
 
 def poberi_recepte():
     #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #shrani_recepte(povezave, MAPA_Z_RECEPTI)
-    izlusci_podatke(MAPA_Z_RECEPTI)
+    podatki = izlusci_podatke(MAPA_Z_RECEPTI)
 
-    #orodja.zapisi_csv(slovarji, IMENA_POLJ, ime_datoteke)
+    #orodja.zapisi_csv(podatki, IMENA_POLJ, ime_datoteke)
 
 
 
@@ -241,16 +256,18 @@ def page_to_ads(page_content):
 # podatke o imenu, lokaciji, datumu objave in ceni v oglasu.
 
 
-#def get_dict_from_ad_block(block):
-#    """Funkcija iz niza za posamezen oglasni blok izlušči podatke o imenu, ceni
-#    in opisu ter vrne slovar, ki vsebuje ustrezne podatke."""
-#    pattern = r'<a .*?>(?P<title>.*?)</a></h3>c + \ 
-#              r'.*pubdate="pubdate">(?P<datum>.*?)</time>'
-#    regexp = re.compile(pattern, re.DOTALL)
-#    najdeno = re.search(regexp, block)
-#    if najdeno:
-#        return najdeno.groupdict()
-#    return None
+def get_dict_from_ad_block(block):
+    """Funkcija iz niza za posamezen oglasni blok izlušči podatke o imenu, ceni
+    in opisu ter vrne slovar, ki vsebuje ustrezne podatke."""
+    pattern = (
+            r'<a .*?>(?P<title>.*?)</a></h3>c'
+            r'.*pubdate="pubdate">(?P<datum>.*?)</time>'
+            )
+    regexp = re.compile(pattern, re.DOTALL)
+    najdeno = re.search(regexp, block)
+    if najdeno:
+        return najdeno.groupdict()
+    return None
 #
 #
 # Definirajte funkcijo, ki sprejme ime in lokacijo datoteke, ki vsebuje
@@ -303,34 +320,34 @@ def write_cat_ads_to_csv(ads, directory, filename):
 
 # Celoten program poženemo v glavni funkciji
 
-#def main(redownload=True, reparse=True):
-#    """Funkcija izvede celoten del pridobivanja podatkov:
-#    1. Oglase prenese iz bolhe
-#    2. Lokalno html datoteko pretvori v lepšo predstavitev podatkov
-#    3. Podatke shrani v csv datoteko
-#    """
-#    # Najprej v lokalno datoteko shranimo glavno stran
-#
-#    #da bo hitreje zakomentiram med razvojem
-#    spletna_stran = download_url_to_string(url_osnovna_stran)
-#    save_string_to_file(spletna_stran, mapa_receptov, html_receptov)
-#
-#    # Iz lokalne (html) datoteke preberemo podatke
-#    vsebina = read_file_to_string(cat_directory, frontpage_filename)
-#
-#    # Podatke preberemo v lepšo obliko (seznam slovarjev)
-#    seznam_reklam = page_to_ads(vsebina)
-#
-#    seznam_podatkov = [
-#        get_dict_from_ad_block(oglas) for oglas in seznam_reklam
-#    ]
-#
-#    # Podatke shranimo v csv datoteko
-#
-#    write_csv(kategorije_podatkov, seznam_podatkov, cat_directory, csv_filename)
-#
-#    # Dodatno: S pomočjo parametrov funkcije main omogoči nadzor, ali se
-#    # celotna spletna stran ob vsakem zagon prenese (četudi že obstaja)
-#    # in enako za pretvorbo
-#
-#
+def main(redownload=True, reparse=True):
+    """Funkcija izvede celoten del pridobivanja podatkov:
+    1. Oglase prenese iz bolhe
+    2. Lokalno html datoteko pretvori v lepšo predstavitev podatkov
+    3. Podatke shrani v csv datoteko
+    """
+    # Najprej v lokalno datoteko shranimo glavno stran
+
+    #da bo hitreje zakomentiram med razvojem
+    #spletna_stran = download_url_to_string(url_osnovna_stran)
+    #save_string_to_file(spletna_stran, mapa_receptov, html_receptov)
+
+    # Iz lokalne (html) datoteke preberemo podatke
+    #vsebina = read_file_to_string(cat_directory, frontpage_filename)
+
+    # Podatke preberemo v lepšo obliko (seznam slovarjev)
+    #seznam_reklam = page_to_ads(vsebina)
+
+    seznam_podatkov = [
+    #    get_dict_from_ad_block(oglas) for oglas in seznam_reklam
+    ]
+
+    # Podatke shranimo v csv datoteko
+
+    #write_csv(kategorije_podatkov, seznam_podatkov, cat_directory, csv_filename)
+
+    # Dodatno: S pomočjo parametrov funkcije main omogoči nadzor, ali se
+    # celotna spletna stran ob vsakem zagon prenese (četudi že obstaja)
+    # in enako za pretvorbo
+
+
