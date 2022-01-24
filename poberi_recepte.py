@@ -10,7 +10,7 @@ URL_OSNOVNA_STRAN = "https://www.skinnytaste.com/"
 RECEPTI_CSV = "podatki_receptov.csv"
 
 
-STEVILO_STRANI = 50
+STEVILO_STRANI = 10
 STEVILO_RECEPTOV_NA_STRANI = 30
 
 
@@ -124,13 +124,13 @@ def izlusci_podatke(mapa_z_recepti, st_receptov=15):
 #izvede postopek
 
 def poberi_recepte():
-    #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     vse_povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     povezave = slabe_povezave(vse_povezave)[0]
     st_dobrih = slabe_povezave(vse_povezave)[1]
     print(st_dobrih)
-    #shrani_recepte(povezave, MAPA_Z_RECEPTI)
-    podatki = izlusci_podatke(MAPA_Z_RECEPTI)#, st_dobrih)
+    shrani_recepte(povezave, MAPA_Z_RECEPTI)
+    podatki = izlusci_podatke(MAPA_Z_RECEPTI)#, st_dobrih
     print("konec izlusci")
     orodja.zapisi_csv(podatki, IMENA_POLJ, RECEPTI_CSV)
     print("konec csv")
