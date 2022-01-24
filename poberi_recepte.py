@@ -10,7 +10,7 @@ URL_OSNOVNA_STRAN = "https://www.skinnytaste.com/"
 RECEPTI_CSV = "podatki_receptov.csv"
 
 
-STEVILO_STRANI = 10
+STEVILO_STRANI = 2
 STEVILO_RECEPTOV_NA_STRANI = 30
 
 
@@ -37,7 +37,7 @@ vzorec_recepta = re.compile(
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-calories wprm-block-text-normal">(?P<kalorije>.*?)</span> <span class="meta-label">Cals</span></span>.*?'
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-protein wprm-block-text-normal">(?P<beljakovine>.*?)</span> <span class="meta-label">Protein</span></span>.*?'
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-carbohydrates wprm-block-text-normal">(?P<ogljikovi_hidrati>.*?)</span> <span class="meta-label">Carbs</span></span>.*?'
-    r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-fat wprm-block-text-normal">(.*?)</span> <span class="meta-label">Fats</span></span>.*?'
+    r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-fat wprm-block-text-normal">(?P<mascobe>.*?)</span> <span class="meta-label">Fats</span></span>.*?'
     r'recipe-prep_time-minutes">(?P<cas_priprave>.*?)</span>.*?cook_time-minutes">(?P<cas_kuhanja>.*?)</span>.*?'
     r'Adjust recipe servings">(?P<st_porcij>.*?)</span>.*?'
     r'wprm-recipe-course-label">COURSE: </span><span class="wprm-recipe-course wprm-block-text-normal">(?P<kategorija>.*?)</span></div>.*?'
@@ -124,12 +124,12 @@ def izlusci_podatke(mapa_z_recepti, st_receptov=15):
 #izvede postopek
 
 def poberi_recepte():
-    poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
-    vse_povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
-    povezave = slabe_povezave(vse_povezave)[0]
-    st_dobrih = slabe_povezave(vse_povezave)[1]
-    print(st_dobrih)
-    shrani_recepte(povezave, MAPA_Z_RECEPTI)
+    #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    #vse_povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
+    #povezave = slabe_povezave(vse_povezave)[0]
+    #st_dobrih = slabe_povezave(vse_povezave)[1]
+    #print(st_dobrih)
+    #shrani_recepte(povezave, MAPA_Z_RECEPTI)
     podatki = izlusci_podatke(MAPA_Z_RECEPTI)#, st_dobrih
     print("konec izlusci")
     orodja.zapisi_csv(podatki, IMENA_POLJ, RECEPTI_CSV)
