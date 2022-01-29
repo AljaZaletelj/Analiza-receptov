@@ -10,20 +10,21 @@ URL_OSNOVNA_STRAN = "https://www.skinnytaste.com/"
 RECEPTI_CSV = "podatki_receptov.csv"
 
 
-STEVILO_STRANI = 2
+STEVILO_STRANI = 1
 STEVILO_RECEPTOV_NA_STRANI = 30
 
 
 #--------------vzroci-----------------------------------------------------
 
 IMENA_POLJ = [
+    "oznake",
     "ime_recepta",
-    "kategorija",
-    "kulinarika",
+    "kategorije",
+    "kulinarike",
     "cas_priprave",
     "cas_kuhanja",
     "st_porcij",
- #   "sestavine",
+    "sestavine",
     "kalorije",
     "ogljikovi_hidrati",
     "mascobe",
@@ -32,7 +33,15 @@ IMENA_POLJ = [
     ]
 
 
-vzorec_recepta = re.compile(
+VZOREC_OZNAKE = re.compile(
+    r'<span><a href=".*?class="attachment-thumbnail size-thumbnail" alt="(?P<ime_recepta>.*?)" data-lazy.*?</noscript></a></span>',
+    flags=re.DOTALL)
+
+VZOREC_SESTAVIN = re.compile(
+    r'recipeIngredient":(?P<sestavine>.*?)"recipeInstructions',
+    flags=re.DOTALL)
+
+VZOREC_RECEPTA = re.compile(
     r'<h2 class="wprm-recipe-name wprm-block-text-normal">(?P<ime_recepta>.*?)</h2>.*?'
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-calories wprm-block-text-normal">(?P<kalorije>.*?)</span> <span class="meta-label">Cals</span></span>.*?'
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-protein wprm-block-text-normal">(?P<beljakovine>.*?)</span> <span class="meta-label">Protein</span></span>.*?'
@@ -40,8 +49,8 @@ vzorec_recepta = re.compile(
     r'<span class="wprm-meta-value"><span class="wprm-recipe-details wprm-recipe-nutrition wprm-recipe-fat wprm-block-text-normal">(?P<mascobe>.*?)</span> <span class="meta-label">Fats</span></span>.*?'
     r'recipe-prep_time-minutes">(?P<cas_priprave>.*?)</span>.*?cook_time-minutes">(?P<cas_kuhanja>.*?)</span>.*?'
     r'Adjust recipe servings">(?P<st_porcij>.*?)</span>.*?'
-    r'wprm-recipe-course-label">COURSE: </span><span class="wprm-recipe-course wprm-block-text-normal">(?P<kategorija>.*?)</span></div>.*?'
-    r'wprm-recipe-cuisine-label">CUISINE: </span><span class="wprm-recipe-cuisine wprm-block-text-normal">(?P<kulinarika>.*?)</span></div>.*?'
+    r'wprm-recipe-course-label">COURSE: </span><span class="wprm-recipe-course wprm-block-text-normal">(?P<kategorije>.*?)</span></div>.*?'
+    r'wprm-recipe-cuisine-label">CUISINE: </span><span class="wprm-recipe-cuisine wprm-block-text-normal">(?P<kulinarike>.*?)</span></div>.*?'
     r'recipe-summary wprm-block-text-italic"><span style="display: block;">(?P<opis>.*?)</span></div>',
     flags=re.DOTALL
 )
@@ -98,30 +107,41 @@ def shrani_recepte(povezave, mapa_z_recepti):
         datoteka = os.path.join(mapa_z_recepti, f"recept_{i}.html")
         orodja.shrani_spletno_stran(url, datoteka)
         i += 1
-    
 
+
+def prva_polovica_seznama(seznam):
+    n = len(seznam) // 2
+    return seznam[:n]
 
 #odpre html-je receptov in iz njih izlušči pomembne podatke
 
-def izlusci_podatke(mapa_z_recepti, st_receptov=15):
+def podatki_receptov(mapa_z_recepti, st_receptov=15):
     seznam_podatkov = []
     for i in range(1, st_receptov + 1):
         datoteka = f"recept_{i}.html"
         pot = os.path.join(mapa_z_recepti, datoteka)
-        vsebina = orodja.vsebina_datoteke(pot)
-        vzorec = vzorec_recepta
-        poskus = re.findall(vzorec, vsebina)
-        print(i)
-        print(poskus)
-        najdeno = re.search(vzorec, vsebina)
-        #print(najdeno)
-        if najdeno:
-            seznam_podatkov.append(najdeno.groupdict())
+        if os.path.exists(pot):
+            vsebina = orodja.vsebina_datoteke(pot)
+            print(i)
+            podatki_recepta = re.search(VZOREC_RECEPTA, vsebina)
+            if podatki_recepta:
+                recept = podatki_recepta.groupdict()
+                recept["oznake"] = prva_polovica_seznama(VZOREC_OZNAKE.findall(vsebina))
+                recept["kategorije"] = recept["kategorije"].strip().split(", ")
+                recept["kulinarike"] = recept["kulinarike"].strip().split(", ")
+                recept["cas_priprave"] = int(recept["cas_priprave"]) 
+                recept["cas_kuhanja"] = int(recept["cas_kuhanja"])
+                recept["st_porcij"] = int(recept["st_porcij"])
+                recept["sestavine"] = VZOREC_SESTAVIN.findall(vsebina)
+                recept["kalorije"] = float(recept["kalorije"])
+                recept["ogljikovi_hidrati"] = float(recept["ogljikovi_hidrati"])
+                recept["mascobe"] = float(recept["mascobe"])
+                recept["beljakovine"] = float(recept["beljakovine"])
+                print(recept)
+                seznam_podatkov.append(recept)
     return seznam_podatkov
 
 
-
-#izvede postopek
 
 def poberi_recepte():
     #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
@@ -130,10 +150,61 @@ def poberi_recepte():
     #st_dobrih = slabe_povezave(vse_povezave)[1]
     #print(st_dobrih)
     #shrani_recepte(povezave, MAPA_Z_RECEPTI)
-    podatki = izlusci_podatke(MAPA_Z_RECEPTI)#, st_dobrih
-    print("konec izlusci")
+    podatki = podatki_receptov(MAPA_Z_RECEPTI)#, st_dobrih
+    print("konec podatkov")
     orodja.zapisi_csv(podatki, IMENA_POLJ, RECEPTI_CSV)
     print("konec csv")
+
+
+
+def izloci_gnezdene_podatke(filmi):
+    REZISER, IGRALEC = 'R', 'I'
+    osebe, vloge, zanri = [], [], []
+    videne_osebe = set()
+
+    def dodaj_vlogo(film, oseba, vloga, mesto):
+        if oseba['id'] not in videne_osebe:
+            videne_osebe.add(oseba['id'])
+            osebe.append(oseba)
+        vloge.append({
+            'film': film['id'],
+            'oseba': oseba['id'],
+            'vloga': vloga,
+            'mesto': mesto,
+        })
+
+
+    for film in filmi:
+        for zanr in film.pop('zanri'):
+            zanri.append({'film': film['id'], 'zanr': zanr})
+        for mesto, oseba in enumerate(film.pop('reziserji'), 1):
+            dodaj_vlogo(film, oseba, REZISER, mesto)
+        for mesto, oseba in enumerate(film.pop('igralci'), 1):
+            dodaj_vlogo(film, oseba, IGRALEC, mesto)
+
+    osebe.sort(key=lambda oseba: oseba['id'])
+    vloge.sort(key=lambda vloga: (vloga['film'], vloga['vloga'], vloga['mesto']))
+    zanri.sort(key=lambda zanr: (zanr['film'], zanr['zanr']))
+
+    return osebe, vloge, zanri
+
+
+filmi = []
+for st_strani in range(1, 41):
+    for film in filmi_na_strani(st_strani, 250):
+        filmi.append(film)
+filmi.sort(key=lambda film: film['id'])
+orodja.zapisi_json(filmi, 'obdelani-podatki/filmi.json')
+osebe, vloge, zanri = izloci_gnezdene_podatke(filmi)
+orodja.zapisi_csv(
+    filmi,
+    ['id', 'naslov', 'dolzina', 'leto', 'ocena', 'metascore', 'glasovi', 'zasluzek', 'oznaka', 'opis'], 'obdelani-podatki/filmi.csv'
+)
+orodja.zapisi_csv(osebe, ['id', 'ime'], 'obdelani-podatki/osebe.csv')
+orodja.zapisi_csv(vloge, ['film', 'oseba', 'vloga', 'mesto'], 'obdelani-podatki/vloge.csv')
+orodja.zapisi_csv(zanri, ['film', 'zanr'], 'obdelani-podatki/zanri.csv')
+
+
 
 
 
