@@ -207,7 +207,7 @@ def poberi_in_zapisi_podatke():
     for recept in recepti:
         id_recepta = recept["id_recepta"]
 
-        vsi_recepti.extend(
+        vsi_recepti.append(
             {
                 "id_recepta" : recept["id_recepta"],
                 "cas_priprave" : recept["cas_priprave"],
@@ -218,7 +218,7 @@ def poberi_in_zapisi_podatke():
                 "mascobe" : recept["mascobe"],
                 "beljakovine" : recept["beljakovine"],
                 "opis" : recept["opis"],
-                "sestavine" : recept["sestavine"],
+                "sestavine" : recept["sestavine"]
             }
         )
 
@@ -237,10 +237,10 @@ def poberi_in_zapisi_podatke():
     print(vse_kulinarike)
     print(vsi_recepti)
 
-    #orodja.zapisi_csv(
-    #    recepti,
-    #    ['id_recepta', 'cas_priprave', 'cas_kuhanja', 'st_porcij', 'kalorije', 'ogljikovi_hidrati', 'mascobe', 'beljakovine', 'opis', 'sestavine'], 'obdelani-podatki/recepti.csv'
-    #)
+    orodja.zapisi_csv(
+        vsi_recepti,
+        ['id_recepta', 'cas_priprave', 'cas_kuhanja', 'st_porcij', 'kalorije', 'ogljikovi_hidrati', 'mascobe', 'beljakovine', 'opis', 'sestavine'], 'obdelani-podatki/recepti.csv'
+    )
     orodja.zapisi_csv(vse_oznake, ['id_recepta', 'oznaka'], 'obdelani-podatki/oznake.csv')
     orodja.zapisi_csv(vse_kategorije, ['id_recepta', 'kategorija'], 'obdelani-podatki/kategorije.csv')
     orodja.zapisi_csv(vse_kulinarike, ['id_recepta', 'kulinarika'], 'obdelani-podatki/kulinarike.csv')
