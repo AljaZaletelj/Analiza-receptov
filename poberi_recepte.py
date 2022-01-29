@@ -17,6 +17,7 @@ STEVILO_RECEPTOV_NA_STRANI = 30
 #--------------vzroci-----------------------------------------------------
 
 IMENA_POLJ = [
+    "id_recepta"
     "oznake",
     "ime_recepta",
     "kategorije",
@@ -115,6 +116,41 @@ def prva_polovica_seznama(seznam):
 
 #odpre html-je receptov in iz njih izlušči pomembne podatke
 
+
+#def podatki_recepta(vsebina_html_recepta):
+#    podatki_recepta = re.search(VZOREC_RECEPTA, vsebina_html_recepta)
+#    if podatki_recepta:
+#        recept = podatki_recepta.groupdict()
+#        recept["id_recepta"] = int(i)
+#        recept["oznake"] = prva_polovica_seznama(VZOREC_OZNAKE.findall(vsebina_html_recepta))
+#        recept["kategorije"] = recept["kategorije"].strip().split(", ")
+#        recept["kulinarike"] = recept["kulinarike"].strip().split(", ")
+#        recept["cas_priprave"] = int(recept["cas_priprave"]) 
+#        recept["cas_kuhanja"] = int(recept["cas_kuhanja"])
+#        recept["st_porcij"] = int(recept["st_porcij"])
+#        recept["sestavine"] = VZOREC_SESTAVIN.findall(vsebina_html_recepta)
+#        recept["kalorije"] = float(recept["kalorije"])
+#        recept["ogljikovi_hidrati"] = float(recept["ogljikovi_hidrati"])
+#        recept["mascobe"] = float(recept["mascobe"])
+#        recept["beljakovine"] = float(recept["beljakovine"])
+#    return recept
+#
+#
+#def podatki_receptov(mapa_z_recepti, st_receptov=15):
+#    seznam_podatkov = []
+#    for i in range(1, st_receptov + 1):
+#        datoteka = f"recept_{i}.html"
+#        pot = os.path.join(mapa_z_recepti, datoteka)
+#        if os.path.exists(pot):
+#            vsebina = orodja.vsebina_datoteke(pot)
+#            print(i)
+#            podatki_recepta = re.search(VZOREC_RECEPTA, vsebina)
+#            if podatki_recepta:
+#                recept = podatki_recepta(vsebina)
+#                print(recept)
+#                seznam_podatkov.append(recept)
+#    return seznam_podatkov
+
 def podatki_receptov(mapa_z_recepti, st_receptov=15):
     seznam_podatkov = []
     for i in range(1, st_receptov + 1):
@@ -126,6 +162,7 @@ def podatki_receptov(mapa_z_recepti, st_receptov=15):
             podatki_recepta = re.search(VZOREC_RECEPTA, vsebina)
             if podatki_recepta:
                 recept = podatki_recepta.groupdict()
+                recept["id_recepta"] = int(i)
                 recept["oznake"] = prva_polovica_seznama(VZOREC_OZNAKE.findall(vsebina))
                 recept["kategorije"] = recept["kategorije"].strip().split(", ")
                 recept["kulinarike"] = recept["kulinarike"].strip().split(", ")
@@ -143,70 +180,75 @@ def podatki_receptov(mapa_z_recepti, st_receptov=15):
 
 
 
-def poberi_recepte():
+def seznam_slovarjev_podatkov(vrsta_podatka, id_recepta, seznam_podatkov):
+    seznam_slovarjev = []
+    for podatek in seznam_podatkov:
+        seznam_slovarjev.append(
+            {
+                "id_recepta" : id_recepta,
+                vrsta_podatka : podatek
+            }
+        )
+    return seznam_slovarjev
+
+
+
+def poberi_in_zapisi_podatke():
     #poberi_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #vse_povezave = poberi_povezave_receptov_iz_osnovne_strani(MAPA_OSNOVNIH_STRANI)
     #povezave = slabe_povezave(vse_povezave)[0]
     #st_dobrih = slabe_povezave(vse_povezave)[1]
     #print(st_dobrih)
     #shrani_recepte(povezave, MAPA_Z_RECEPTI)
-    podatki = podatki_receptov(MAPA_Z_RECEPTI)#, st_dobrih
+    recepti = podatki_receptov(MAPA_Z_RECEPTI)#, st_dobrih
     print("konec podatkov")
-    orodja.zapisi_csv(podatki, IMENA_POLJ, RECEPTI_CSV)
+
+    vsi_recepti, vse_oznake, vse_kategorije, vse_kulinarike = [], [], [], []
+    for recept in recepti:
+        id_recepta = recept["id_recepta"]
+
+        vsi_recepti.extend(
+            {
+                "id_recepta" : recept["id_recepta"],
+                "cas_priprave" : recept["cas_priprave"],
+                "cas_kuhanja" : recept["cas_kuhanja"],
+                "st_porcij" : recept["st_porcij"],
+                "kalorije" : recept["kalorije"],
+                "ogljikovi_hidrati" : recept["ogljikovi_hidrati"],
+                "mascobe" : recept["mascobe"],
+                "beljakovine" : recept["beljakovine"],
+                "opis" : recept["opis"],
+                "sestavine" : recept["sestavine"],
+            }
+        )
+
+        vse_oznake.extend(
+            seznam_slovarjev_podatkov("oznaka", id_recepta, recept["oznake"])
+        )
+        vse_kategorije.extend(
+            seznam_slovarjev_podatkov("kategorija", id_recepta, recept["kategorije"])
+        )
+        vse_kulinarike.extend(
+            seznam_slovarjev_podatkov("kulinarika", id_recepta, recept["kulinarike"])
+        )
+
+    print(vse_oznake)
+    print(vse_kategorije)
+    print(vse_kulinarike)
+    print(vsi_recepti)
+
+    #orodja.zapisi_csv(
+    #    recepti,
+    #    ['id_recepta', 'cas_priprave', 'cas_kuhanja', 'st_porcij', 'kalorije', 'ogljikovi_hidrati', 'mascobe', 'beljakovine', 'opis', 'sestavine'], 'obdelani-podatki/recepti.csv'
+    #)
+    orodja.zapisi_csv(vse_oznake, ['id_recepta', 'oznaka'], 'obdelani-podatki/oznake.csv')
+    orodja.zapisi_csv(vse_kategorije, ['id_recepta', 'kategorija'], 'obdelani-podatki/kategorije.csv')
+    orodja.zapisi_csv(vse_kulinarike, ['id_recepta', 'kulinarika'], 'obdelani-podatki/kulinarike.csv')
     print("konec csv")
-
-
-
-def izloci_gnezdene_podatke(filmi):
-    REZISER, IGRALEC = 'R', 'I'
-    osebe, vloge, zanri = [], [], []
-    videne_osebe = set()
-
-    def dodaj_vlogo(film, oseba, vloga, mesto):
-        if oseba['id'] not in videne_osebe:
-            videne_osebe.add(oseba['id'])
-            osebe.append(oseba)
-        vloge.append({
-            'film': film['id'],
-            'oseba': oseba['id'],
-            'vloga': vloga,
-            'mesto': mesto,
-        })
-
-
-    for film in filmi:
-        for zanr in film.pop('zanri'):
-            zanri.append({'film': film['id'], 'zanr': zanr})
-        for mesto, oseba in enumerate(film.pop('reziserji'), 1):
-            dodaj_vlogo(film, oseba, REZISER, mesto)
-        for mesto, oseba in enumerate(film.pop('igralci'), 1):
-            dodaj_vlogo(film, oseba, IGRALEC, mesto)
-
-    osebe.sort(key=lambda oseba: oseba['id'])
-    vloge.sort(key=lambda vloga: (vloga['film'], vloga['vloga'], vloga['mesto']))
-    zanri.sort(key=lambda zanr: (zanr['film'], zanr['zanr']))
-
-    return osebe, vloge, zanri
-
-
-filmi = []
-for st_strani in range(1, 41):
-    for film in filmi_na_strani(st_strani, 250):
-        filmi.append(film)
-filmi.sort(key=lambda film: film['id'])
-orodja.zapisi_json(filmi, 'obdelani-podatki/filmi.json')
-osebe, vloge, zanri = izloci_gnezdene_podatke(filmi)
-orodja.zapisi_csv(
-    filmi,
-    ['id', 'naslov', 'dolzina', 'leto', 'ocena', 'metascore', 'glasovi', 'zasluzek', 'oznaka', 'opis'], 'obdelani-podatki/filmi.csv'
-)
-orodja.zapisi_csv(osebe, ['id', 'ime'], 'obdelani-podatki/osebe.csv')
-orodja.zapisi_csv(vloge, ['film', 'oseba', 'vloga', 'mesto'], 'obdelani-podatki/vloge.csv')
-orodja.zapisi_csv(zanri, ['film', 'zanr'], 'obdelani-podatki/zanri.csv')
-
-
-
-
-
+    
+    
+    
+    
+    
 if __name__ == '__main__':
-    poberi_recepte()
+    poberi_in_zapisi_podatke()
