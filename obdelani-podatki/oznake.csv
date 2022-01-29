@@ -32,3 +32,461 @@ id_recepta,oznaka
 15,Kid Friendly
 15,Low Carb
 15,Under 30 Minutes
+16,Gluten Free
+16,Kid Friendly
+16,Vegetarian Meals
+17,Gluten Free
+19,Dairy Free
+19,Gluten Free
+19,Keto Recipes
+19,Kid Friendly
+19,Low Carb
+19,Paleo
+19,Under 30 Minutes
+19,Whole 30 Recipes
+21,Dairy Free
+21,Gluten Free
+21,Kid Friendly
+21,Under 30 Minutes
+21,Vegetarian Meals
+26,Gluten Free
+26,Kid Friendly
+26,Low Carb
+26,Vegetarian Meals
+27,Dairy Free
+27,Gluten Free
+27,Vegetarian Meals
+27,Whole 30 Recipes
+28,Gluten Free
+28,Kid Friendly
+31,Under 30 Minutes
+31,Vegetarian Meals
+35,Dairy Free
+35,Gluten Free
+36,Kid Friendly
+36,Under 30 Minutes
+37,Gluten Free
+37,Under 30 Minutes
+37,Vegetarian Meals
+39,Gluten Free
+39,Kid Friendly
+39,Under 30 Minutes
+39,Vegetarian Meals
+40,Air Fryer
+40,Gluten Free
+40,Under 30 Minutes
+41,Vegetarian Meals
+43,Dairy Free
+43,Gluten Free
+43,Under 30 Minutes
+43,Vegetarian Meals
+44,Freezer Meals
+44,Kid Friendly
+44,Vegetarian Meals
+46,Dairy Free
+46,Gluten Free
+46,Kid Friendly
+46,Vegetarian Meals
+51,Freezer Meals
+51,Kid Friendly
+52,Dairy Free
+52,Gluten Free
+52,Kid Friendly
+52,Whole 30 Recipes
+54,Air Fryer
+54,Dairy Free
+54,Gluten Free
+54,Under 30 Minutes
+54,Vegetarian Meals
+56,Kid Friendly
+57,Air Fryer
+57,Dairy Free
+57,Gluten Free
+57,Kid Friendly
+58,Dairy Free
+58,Gluten Free
+58,Low Carb
+58,Under 30 Minutes
+59,Air Fryer
+59,Vegetarian Meals
+62,Dairy Free
+62,Gluten Free
+62,Under 30 Minutes
+63,Kid Friendly
+63,Meal Prep Recipes
+65,Gluten Free
+65,Keto Recipes
+65,Kid Friendly
+65,Low Carb
+65,Meal Prep Recipes
+65,Under 30 Minutes
+66,Gluten Free
+66,Keto Recipes
+66,Kid Friendly
+66,Low Carb
+66,Paleo
+66,Under 30 Minutes
+66,Whole 30 Recipes
+67,Gluten Free
+67,Kid Friendly
+67,Vegetarian Meals
+72,Gluten Free
+72,Keto Recipes
+72,Kid Friendly
+72,Low Carb
+72,Paleo
+72,Under 30 Minutes
+72,Whole 30 Recipes
+73,Gluten Free
+73,Kid Friendly
+73,Low Carb
+74,Dairy Free
+74,Kid Friendly
+74,Under 30 Minutes
+75,Dairy Free
+75,Gluten Free
+75,Kid Friendly
+75,Meal Prep Recipes
+75,Under 30 Minutes
+77,Gluten Free
+77,Under 30 Minutes
+77,Vegetarian Meals
+78,Dairy Free
+78,Gluten Free
+78,Vegetarian Meals
+79,Gluten Free
+79,Kid Friendly
+79,Under 30 Minutes
+80,Dairy Free
+80,Gluten Free
+80,Kid Friendly
+80,Under 30 Minutes
+83,Gluten Free
+83,Kid Friendly
+83,Vegetarian Meals
+84,Air Fryer
+84,Kid Friendly
+85,Gluten Free
+85,Kid Friendly
+85,Under 30 Minutes
+87,Gluten Free
+87,Kid Friendly
+87,Under 30 Minutes
+87,Vegetarian Meals
+90,Dairy Free
+90,Gluten Free
+91,Air Fryer
+91,Kid Friendly
+91,Low Carb
+91,Under 30 Minutes
+92,Dairy Free
+92,Kid Friendly
+92,Vegetarian Meals
+94,Dairy Free
+94,Gluten Free
+94,Paleo
+94,Under 30 Minutes
+94,Vegetarian Meals
+94,Whole 30 Recipes
+95,Under 30 Minutes
+95,Vegetarian Meals
+96,Gluten Free
+96,Kid Friendly
+96,Under 30 Minutes
+96,Vegetarian Meals
+97,Dairy Free
+97,Gluten Free
+97,Keto Recipes
+97,Low Carb
+97,Meal Prep Recipes
+97,Paleo
+97,Under 30 Minutes
+97,Vegetarian Meals
+97,Whole 30 Recipes
+98,Air Fryer
+98,Dairy Free
+98,Gluten Free
+98,Keto Recipes
+98,Kid Friendly
+98,Low Carb
+98,Under 30 Minutes
+100,Dairy Free
+100,Freezer Meals
+100,Gluten Free
+100,Keto Recipes
+100,Kid Friendly
+100,Low Carb
+100,Meal Prep Recipes
+100,Under 30 Minutes
+100,Whole 30 Recipes
+101,Under 30 Minutes
+101,Vegetarian Meals
+102,Dairy Free
+102,Gluten Free
+102,Low Carb
+102,Meal Prep Recipes
+102,Under 30 Minutes
+104,Dairy Free
+104,Gluten Free
+104,Keto Recipes
+104,Under 30 Minutes
+104,Whole 30 Recipes
+106,Dairy Free
+106,Gluten Free
+106,Under 30 Minutes
+107,Dairy Free
+107,Gluten Free
+107,Kid Friendly
+107,Under 30 Minutes
+107,Vegetarian Meals
+107,Whole 30 Recipes
+108,Vegetarian Meals
+109,Gluten Free
+109,Under 30 Minutes
+109,Vegetarian Meals
+110,Dairy Free
+110,Freezer Meals
+110,Gluten Free
+110,Kid Friendly
+110,Meal Prep Recipes
+110,Under 30 Minutes
+110,Vegetarian Meals
+111,Gluten Free
+111,Kid Friendly
+111,Vegetarian Meals
+112,Dairy Free
+112,Gluten Free
+112,Low Carb
+112,Under 30 Minutes
+114,Gluten Free
+114,Keto Recipes
+114,Low Carb
+114,Vegetarian Meals
+114,Whole 30 Recipes
+115,Gluten Free
+115,Low Carb
+115,Meal Prep Recipes
+115,Vegetarian Meals
+116,Dairy Free
+116,Gluten Free
+116,Paleo
+116,Under 30 Minutes
+116,Vegetarian Meals
+116,Whole 30 Recipes
+117,Kid Friendly
+117,Vegetarian Meals
+118,Gluten Free
+118,Kid Friendly
+118,Under 30 Minutes
+118,Vegetarian Meals
+119,Dairy Free
+119,Gluten Free
+119,Under 30 Minutes
+120,Air Fryer
+120,Dairy Free
+120,Kid Friendly
+120,Under 30 Minutes
+121,Kid Friendly
+121,Under 30 Minutes
+122,Under 30 Minutes
+124,Gluten Free
+124,Keto Recipes
+124,Low Carb
+124,Under 30 Minutes
+125,Dairy Free
+125,Gluten Free
+125,Kid Friendly
+125,Under 30 Minutes
+126,Gluten Free
+126,Kid Friendly
+126,Under 30 Minutes
+126,Vegetarian Meals
+128,Dairy Free
+128,Kid Friendly
+128,Under 30 Minutes
+129,Gluten Free
+129,Low Carb
+129,Meal Prep Recipes
+133,Air Fryer
+133,Gluten Free
+133,Keto Recipes
+133,Low Carb
+133,Under 30 Minutes
+135,Dairy Free
+135,Gluten Free
+135,Keto Recipes
+135,Kid Friendly
+135,Low Carb
+135,Under 30 Minutes
+136,Gluten Free
+136,Meal Prep Recipes
+136,Under 30 Minutes
+136,Vegetarian Meals
+139,Gluten Free
+139,Under 30 Minutes
+139,Vegetarian Meals
+141,Kid Friendly
+141,Pressure Cooker Recipes
+141,Under 30 Minutes
+141,Vegetarian Meals
+142,Dairy Free
+142,Gluten Free
+142,Keto Recipes
+142,Kid Friendly
+142,Low Carb
+143,Air Fryer
+143,Gluten Free
+143,Kid Friendly
+143,Under 30 Minutes
+143,Vegetarian Meals
+145,Dairy Free
+145,Kid Friendly
+146,Dairy Free
+146,Gluten Free
+146,Kid Friendly
+146,Under 30 Minutes
+148,Dairy Free
+148,Gluten Free
+148,Keto Recipes
+148,Kid Friendly
+148,Low Carb
+148,Paleo
+148,Under 30 Minutes
+148,Whole 30 Recipes
+149,Dairy Free
+149,Gluten Free
+149,Under 30 Minutes
+150,Gluten Free
+150,Keto Recipes
+150,Low Carb
+150,Under 30 Minutes
+151,Dairy Free
+151,Gluten Free
+151,Kid Friendly
+151,Paleo
+151,Under 30 Minutes
+151,Vegetarian Meals
+152,Air Fryer
+152,Dairy Free
+152,Freezer Meals
+152,Kid Friendly
+152,Meal Prep Recipes
+152,Under 30 Minutes
+153,Gluten Free
+153,Low Carb
+153,Under 30 Minutes
+155,Dairy Free
+155,Gluten Free
+155,Keto Recipes
+155,Low Carb
+155,Under 30 Minutes
+156,Dairy Free
+156,Gluten Free
+156,Kid Friendly
+158,Gluten Free
+158,Under 30 Minutes
+158,Vegetarian Meals
+160,Gluten Free
+160,Kid Friendly
+160,Under 30 Minutes
+161,Freezer Meals
+161,Vegetarian Meals
+162,Kid Friendly
+162,Meal Prep Recipes
+162,Under 30 Minutes
+162,Vegetarian Meals
+163,Kid Friendly
+165,Kid Friendly
+165,Vegetarian Meals
+166,Dairy Free
+166,Gluten Free
+166,Keto Recipes
+166,Low Carb
+166,Vegetarian Meals
+166,Whole 30 Recipes
+167,Dairy Free
+167,Freezer Meals
+167,Gluten Free
+167,Vegetarian Meals
+168,Gluten Free
+168,Under 30 Minutes
+173,Kid Friendly
+173,Meal Prep Recipes
+173,Under 30 Minutes
+176,Gluten Free
+176,Kid Friendly
+176,Vegetarian Meals
+178,Gluten Free
+178,Keto Recipes
+178,Kid Friendly
+178,Low Carb
+178,Meal Prep Recipes
+179,Kid Friendly
+180,Air Fryer
+180,Gluten Free
+180,Keto Recipes
+180,Kid Friendly
+180,Low Carb
+181,Freezer Meals
+181,Kid Friendly
+181,Vegetarian Meals
+182,Gluten Free
+182,Kid Friendly
+184,Gluten Free
+184,Kid Friendly
+184,Vegetarian Meals
+185,Air Fryer
+186,Dairy Free
+186,Gluten Free
+186,Kid Friendly
+186,Vegetarian Meals
+188,Gluten Free
+188,Kid Friendly
+188,Under 30 Minutes
+188,Vegetarian Meals
+189,Kid Friendly
+190,Air Fryer
+190,Dairy Free
+190,Gluten Free
+190,Low Carb
+190,Under 30 Minutes
+191,Kid Friendly
+191,Under 30 Minutes
+191,Vegetarian Meals
+193,Kid Friendly
+193,Meal Prep Recipes
+193,Under 30 Minutes
+193,Vegetarian Meals
+197,Dairy Free
+197,Freezer Meals
+197,Gluten Free
+197,Keto Recipes
+197,Low Carb
+197,Meal Prep Recipes
+197,Under 30 Minutes
+197,Whole 30 Recipes
+198,Kid Friendly
+198,Vegetarian Meals
+200,Gluten Free
+200,Keto Recipes
+200,Kid Friendly
+200,Low Carb
+200,Under 30 Minutes
+200,Vegetarian Meals
+200,Whole 30 Recipes
+203,Vegetarian Meals
+204,Gluten Free
+204,Keto Recipes
+204,Low Carb
+204,Under 30 Minutes
+204,Vegetarian Meals
+205,Gluten Free
+205,Kid Friendly
+205,Vegetarian Meals
+209,Gluten Free
+209,Kid Friendly
+209,Under 30 Minutes
+210,Kid Friendly
+210,Vegetarian Meals
+213,Gluten Free
+213,Kid Friendly
