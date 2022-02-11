@@ -1,6 +1,6 @@
 # Analiza receptov
 
-V tej projetni nalogi bomo analizirali prvih 139 receptov iz spletne strani [skinnytaste](https://www.skinnytaste.com/)
+V tej projetni nalogi bomo analizirali prvih 139 receptov iz spletne strani [skinnytaste](https://www.skinnytaste.com/).
 
 Naš cilj bo ugotoviti kako sestaviti nabolj časovno prijazen in hranilno bogat jedilnik in ali nam naša zbirka receptov to sploh omogoča.        
 Vsak recept ima poleg osnovnih podatkov (ime, opis, čas priprave...) določene tudi kategorije, kulinarike in oznake (diete) v katere spada. 
