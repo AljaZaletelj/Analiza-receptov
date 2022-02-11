@@ -1,14 +1,11 @@
 # Analiza receptov
 
-V tej projetni nalogi bom analizirala prvih 80 receptov iz spletne strani [skinnytaste](https://www.skinnytaste.com/)
+V tej projetni nalogi bomp analizirali prvih 139 receptov iz spletne strani [skinnytaste](https://www.skinnytaste.com/)
 
-Za vsak recept so v CSV datoteki shranjeni naslednji podatki:
-* ime in kategorija in izvor jedi
-* čas priprave in kuhanja
-* sestavine in število porcij
-* hranilne in energijske vrednosti porcije (koliko kalorij, beljakovin, ogljikovih hidratov, in maščob vsebuje porcija)
+Naš cilj bo ugotoviti kako sestaviti nabolj časovno prijazen in hranilno bogat jedilnikin ali nam naša zbirka receptov to sploh omogoča.        
+Pri tem bomo posebaj analizirali recepte, posamezne kategorije, kulinarike in oznake (ki označujejo različne diete).
+Določili bomo kriterij in uredili recepte, kategorije, kulinarike in oznake od najboljše do najslabše.
 
-Glavna vprašanja:
-* Ali lahko iz glavnih sestavin ugotovimo čas priprave?
-* V katerih kategorijah imajo jedi najbolj raznoliko hranilno sestavo?
-* Ali je težavnost recepta povezana z nabororm potrebnih sestavin ali z skupnim časom priprave?
+## Baza receptov 
+
+Zbirko receptov smo sestavili iz zgornje spletne strani. HTML datoteke s temi podatki so shranjene v mapi recepti.  Te smo uredili v ustrezne CSV datoteke, ki se nahajajo v mapi obdelani-podatki. Te bomo uporabljali pri naši analizi.
